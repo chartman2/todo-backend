@@ -1,0 +1,50 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  build:
+    desc: Construction des services Docker
+    cmds:
+      - UID_GID="$(id -u):$(id -g)" USERNAME="toofytroll" docker compose build backend --build-arg USER_UID="1000" --build-arg USER_GID="1000" 
+  build-vscode:
+    desc: Construction du service Docker vscode
+    cmds:
+      - docker compose build vscode
+  u:
+    desc: Démarrage des services Docker
+    cmds:
+      - UID_GID="$(id -u):$(id -g)" docker compose up -d
+      - cat ~/.config/code-server/config.yaml
+      - docker compose exec backend bash
+      #- task: edge
+  d:
+    desc: Arrêt des services Docker
+    cmds:
+      - docker compose down
+  du:
+    desc: Redémarrage des services Docker
+    cmds:
+      - task: d
+      - task: u
+  env:
+    desc: Edit env variables
+    cmds:
+      - docker compose exec backend EDITOR=vim rails credentials:edit
+  ps:
+    desc: Affichage de l'état des processus des servicese Docker
+    cmds:
+      - docker compose ps
+  logs:
+    desc: Afficher les logs des services Docker
+    cmds:
+      - docker compose logs
+  edge:
+    desc: Démarrage de Microsoft Edge avec applications
+    cmds:
+      - flatpak run com.microsoft.Edge https://$APP_URL https://$APP_VSCODE_URL > /dev/null
+    silent: true
+  shell:
+    desc: SHELL dans l'application
+    cmds:
+      - UID_GID="$(id -u):$(id -g)" docker compose exec frontend sh

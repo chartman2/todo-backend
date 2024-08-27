@@ -1,0 +1,14 @@
+ARG DOCKER_USER=${DOCKER_USER}
+ARG USER_PASSWORD=${USER_PASSWORD}
+
+FROM codercom/code-server:fedora
+
+ARG DOCKER_USER
+ARG USER_PASSWORD
+
+RUN sudo dnf update -y \
+  && sudo dnf install -y fira-code-fonts java-latest-openjdk.x86_64 nodejs passwd rubygem-bundler
+
+RUN sudo echo "coder:pass" | sudo chpasswd
+
+WORKDIR /home/coder/project
