@@ -24,5 +24,5 @@ class Todo::ItemSerializer
 
   set_key_transform :camel_lower
 
-  attributes :id, :done, :name, :user_id
+  attributes :id, :done, :name, :user_id, :scope_id
 end

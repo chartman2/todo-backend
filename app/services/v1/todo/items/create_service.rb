@@ -13,16 +13,16 @@ module V1
       # Returns a hash containing a success flag and the newly created Todo::Item object if the record was saved successfully,
       # or an error hash with validation errors if creation failed.
       class CreateService < ApplicationCallable
-        attr_reader :user, :properties
+        attr_reader :user, :scope, :properties
 
-        def initialize(user, properties)
+        def initialize(user, scope, properties)
           @user       = user
+          @scope      = scope
           @properties = properties
         end
 
         def call
-          item = ::Todo::Item.create!(name: @properties[:name], done: @properties[:done],
-                                    user: @@user)
+          item = ::Todo::Item.create! @properties.merge({ user: @user, scope: @scope })
 
           { success: true, payload: item }
         rescue ActiveRecord::RecordInvalid => e

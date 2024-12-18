@@ -92,6 +92,9 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+      tooShort: "tooShort"
+      tooLong: "tooLong"
+      required: "required"
   api:
     error_response:
       invalid_authentication: "Email or password is invalid"
